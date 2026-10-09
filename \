@@ -1,0 +1,61 @@
+#ifndef LURCACHE_HPP
+#define LURCACHE_HPP
+#include <iterator>
+#include <unordered_map>
+#include <list>
+template<class T,size_t Capacity>
+class LRUCache {
+public:
+    LRUCache() : _capacity(Capacity) {}
+    bool put(const T& item) {
+        auto it = std::find(_cache.begin(), _cache.end(), item);
+        if(it != std::end(this->_cache)){
+            this->_cache.splice(std::begin(this->_cache),this->_cache,it); 
+            return true;
+        }
+        if(this->_cache.size() >= this->_capacity){
+            auto last = this->_cache.back();
+            this->_map.erase(last);
+            this->_cache.pop_back();
+        }
+        _cache.push_front(item);
+        _map[item] = _cache.begin();
+        this->_capacity++;
+        return true;
+    }
+    std::optional<T> get(const T& item) {
+        if(_map.find(item) == _map.end()){
+            return std::nullopt;
+        }
+        _cache.splice(std::begin(this->_cache),this->_cache,_map[item]); 
+        return *(_map[item]);
+    }
+    bool contains(const T& item) const {
+        return _map.find(item) != _map.end();
+    }
+    bool empty() {
+       return this->_cache.empty(); 
+    }
+    bool erase(const T& item){
+        auto it = _map.find(item);
+        if(it != std::end(this->_cache)){
+            this->_cache.erase(it);
+            return false;
+        }
+        this->_map.erase(item);
+        this->_cache.erase(it);
+        this->_capacity--;
+        return true;
+    }
+
+private:
+    std::list<T> _cache;
+    std::unordered_map<T, typename std::list<T>::iterator> _map;
+    size_t _capacity;   
+};
+namespace parallel{
+template<class T,size_t Capacity>     
+class LRUCacheParallel {
+};
+}
+#endif

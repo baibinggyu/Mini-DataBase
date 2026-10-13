@@ -54,7 +54,7 @@ private:
 };
 namespace parallel {
 template <class T, size_t Capacity> class LRUCacheParallel {
-  static_assert(Capacity > 0, "LRU capacity must be positive");
+  static_assert(Capacity > 0, "LRU capacity parallel must be positive");
 
 public:
   bool put(const T &item) {

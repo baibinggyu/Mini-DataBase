@@ -1,5 +1,5 @@
-#ifndef LFUCACHE_HPP
-#define LFUCACHE_HPP
+#ifndef LFU_CACHE_HPP
+#define LFU_CACHE_HPP
 #include <cstddef>
 #include <list>
 #include <mutex>

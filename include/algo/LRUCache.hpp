@@ -1,5 +1,5 @@
-#ifndef LURCACHE_HPP
-#define LURCACHE_HPP
+#ifndef LRU_CACHE_HPP
+#define LRU_CACHE_HPP
 #include <iterator>
 #include <list>
 #include <mutex>
